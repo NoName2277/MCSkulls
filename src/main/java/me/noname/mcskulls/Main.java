@@ -1,6 +1,7 @@
 package me.noname.mcskulls;
 
 import me.noname.mcskulls.commands.SkullCommand;
+import me.noname.mcskulls.events.DropEvent;
 import me.noname.mcskulls.events.SkullJoinEvent;
 import me.noname.mcskulls.events.SkullKillEntityByEntityEvent;
 import net.milkbowl.vault.economy.Economy;
@@ -30,12 +31,12 @@ public final class Main extends JavaPlugin implements Listener {
                 eco = rsp.getProvider();
             } else {
                 getLogger().severe("Vault economy not found! Make sure you have a compatible economy plugin.");
-                //getServer().getPluginManager().disablePlugin(this);
+                getServer().getPluginManager().disablePlugin(this);
                 return;
             }
 
             getServer().getPluginManager().registerEvents(new SkullJoinEvent(skull), this);
-            //getServer().getPluginManager().registerEvents(new DropEvent(skull), this); maybe soon
+            getServer().getPluginManager().registerEvents(new DropEvent(skull, this), this);
             getServer().getPluginManager().registerEvents(this, this);
             getServer().getPluginManager().registerEvents(new SkullKillEntityByEntityEvent(skull, eco, this), this);
             getCommand("czaszki").setExecutor(new SkullCommand(skull));

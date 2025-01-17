@@ -1,2 +1,3 @@
 punish-value: 100
 reward-value: 100
+dropFullItems: false

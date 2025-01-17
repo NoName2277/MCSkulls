@@ -1,10 +1,14 @@
 package me.noname.mcskulls;
 
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import java.sql.*;
 
-public class SkullApi {
+public final class SkullApi {
 
     private Connection connection;
 
@@ -25,7 +29,6 @@ public class SkullApi {
     }
 
     public void addPlayer(OfflinePlayer player) throws SQLException {
-        //this should error if the player already exists
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO players (uuid, username) VALUES (?, ?)")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, player.getName());
@@ -90,11 +93,38 @@ public class SkullApi {
 
     public void giveSkull(OfflinePlayer player) throws SQLException {
         setPlayerSkull(player, true);
-        //player.sendTitle("☠", "", 10, 10, 10);
+        if (player.isOnline()) {
+            updateTabList(player.getPlayer());
+        }
     }
 
     public void removeSkull(OfflinePlayer player) throws SQLException {
         setPlayerSkull(player, false);
-
+        if (player.isOnline()) {
+            updateTabList(player.getPlayer());
+        }
     }
+
+    public void updateTabList(Player player) {
+        Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+        Team currentTeam = scoreboard.getEntryTeam(player.getName());
+        if (currentTeam != null) {
+            return;
+        }
+        Team team = scoreboard.getTeam("skull_team");
+        if (team == null) {
+            team = scoreboard.registerNewTeam("skull_team");
+            team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.ALWAYS);
+            team.setOption(Team.Option.COLLISION_RULE, Team.OptionStatus.NEVER);
+            team.setOption(Team.Option.DEATH_MESSAGE_VISIBILITY, Team.OptionStatus.NEVER);
+        }
+        if (hasSkull(player)) {
+            team.setSuffix(" §f☠");
+        } else {
+            team.setSuffix("");
+        }
+        team.addEntry(player.getName());
+        player.setScoreboard(scoreboard);
+    }
+
 }
