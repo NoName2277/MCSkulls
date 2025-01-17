@@ -22,7 +22,7 @@ public class SkullJoinEvent implements Listener {
         Player player = event.getPlayer();
         if (!skull.playerExists(player)) {
             skull.addPlayer(event.getPlayer());
-            Bukkit.getLogger().info("dodano do bazy danych gracza o nicku " + event.getPlayer().getDisplayName());
+            Bukkit.getLogger().info("dodano do bazy danych gracza o nicku  " + event.getPlayer().getDisplayName());
             skull.updateTabList(player);
         }
         skull.updateTabList(player);

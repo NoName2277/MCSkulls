@@ -30,7 +30,7 @@ public final class Main extends JavaPlugin implements Listener {
             if (rsp != null) {
                 eco = rsp.getProvider();
             } else {
-                getLogger().severe("Vault economy not found! Make sure you have a compatible economy plugin.");
+                getLogger().severe("Vault economy not found! Make sure you have a compatible economy plugin. ");
                 getServer().getPluginManager().disablePlugin(this);
                 return;
             }

@@ -44,7 +44,7 @@ public class DropEvent implements Listener {
                 }
             }
             inventory.clear();
-        } else {
+        } else  {
             for (int i = 0; i < contents.length; i++) {
                 ItemStack item = contents[i];
                 if (item != null && item.getAmount() > 1) {

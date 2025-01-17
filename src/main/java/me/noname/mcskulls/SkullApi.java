@@ -88,7 +88,7 @@ public final class SkullApi {
         if(hasSkull(player)){
             return " §f☠";
         }
-        return "";
+        return " ";
     }
 
     public void giveSkull(OfflinePlayer player) throws SQLException {

@@ -32,7 +32,7 @@ public class SkullKillEntityByEntityEvent implements Listener {
         if(skull.hasSkull(victim)){
             skull.removeSkull(victim);
             eco.depositPlayer(killer, plugin.getConfig().getDouble("reward-value"));
-            Bukkit.broadcastMessage("§aGracz §l" + killer.getDisplayName() + " §azabił agresywnego gracza nagroda §a§l" + plugin.getConfig().getDouble("reward-value") + " §a$");
+            Bukkit.broadcastMessage("§aGracz §l" + killer.getDisplayName() + " §azabił agresywnego gracza nagroda §a§l" + plugin.getConfig().getDouble("reward-value") + " §a$ ");
         }else{
             skull.giveSkull(killer);
             killer.sendTitle("☠", "", 10, 10, 10);
