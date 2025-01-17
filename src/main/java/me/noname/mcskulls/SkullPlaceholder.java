@@ -11,7 +11,7 @@ public class SkullPlaceholder extends PlaceholderExpansion {
     @Override
     public String onRequest(OfflinePlayer player, String params) {
         if (params.equalsIgnoreCase("skull")) {
-            return connection.tab(player); // Make sure 'connection' is initialized
+            return connection.tab(player); 
         }
         return null;
     }

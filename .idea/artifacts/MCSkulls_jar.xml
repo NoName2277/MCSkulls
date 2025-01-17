@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="MCSkulls:jar">
-    <output-path>$PROJECT_DIR$/../../serwer/1.19.2/testy/plugins</output-path>
+    <output-path>$PROJECT_DIR$/../../serwer/1.15.2/plugins</output-path>
     <root id="archive" name="MCSkulls.jar">
       <element id="module-output" name="MCSkulls" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/xerial/sqlite-jdbc/3.42.0.0/sqlite-jdbc-3.42.0.0.jar" path-in-jar="/" />

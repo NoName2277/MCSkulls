@@ -1,9 +1,10 @@
 name: MCSkulls
 version: '${project.version}'
 main: me.noname.mcskulls.Main
-api-version: '1.19'
+api-version: '1.15'
 depend:
   - Vault
+  - PlaceholderAPI
 commands:
   czaszki:
 permissions:
