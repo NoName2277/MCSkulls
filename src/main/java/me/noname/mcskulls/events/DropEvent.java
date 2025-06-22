@@ -8,8 +8,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+
+import java.sql.SQLException;
 
 public class DropEvent implements Listener {
 
@@ -23,15 +26,17 @@ public class DropEvent implements Listener {
     }
 
     @EventHandler
-    public void deathEvent(PlayerDeathEvent event) {
+    public void deathEvent(PlayerDeathEvent event) throws SQLException {
         Player player = event.getEntity();
         PlayerInventory inventory = player.getInventory();
         ItemStack[] contents = inventory.getContents();
 
-        Location location = player.getBedSpawnLocation();
-        if (location == null) {
-            location = player.getLocation();
+        if(skullApi.isPlayerDead(player)){
+            return;
         }
+        skullApi.markPlayerDead(player);
+
+        Location location = player.getLocation();
 
         World world = location.getWorld();
         if (world == null) return;
@@ -65,7 +70,15 @@ public class DropEvent implements Listener {
         event.getDrops().clear();
     }
 
-
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        Player player = event.getPlayer();
+        try {
+            skullApi.unmarkPlayerDead(player);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

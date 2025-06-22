@@ -1,5 +1,6 @@
 package me.noname.mcskulls.commands;
 
+import me.noname.mcskulls.Main;
 import me.noname.mcskulls.SkullApi;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,8 +19,7 @@ import java.util.List;
 public class SkullCommand implements CommandExecutor, TabCompleter {
 
     private final SkullApi skull;
-
-    public SkullCommand(SkullApi skull) {
+    public SkullCommand(SkullApi skull){
         this.skull = skull;
     }
 

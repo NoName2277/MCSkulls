@@ -18,9 +18,43 @@ public final class SkullApi {
             statement.execute("CREATE TABLE IF NOT EXISTS players (" +
                     "uuid TEXT PRIMARY KEY, " +
                     "username TEXT NOT NULL, " +
-                    "skull BOOLEAN NOT NULL DEFAULT false)");
+                    "skull BOOLEAN NOT NULL DEFAULT false, " +
+                    "dead BOOLEAN NOT NULL DEFAULT false)");
         }
     }
+
+    public boolean isPlayerDead(OfflinePlayer player) throws SQLException {
+        try (PreparedStatement preparedStatement = connection.prepareStatement("SELECT dead FROM players WHERE uuid = ?")) {
+            preparedStatement.setString(1, player.getUniqueId().toString());
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next() && resultSet.getBoolean("dead");
+        }
+    }
+
+    public void markPlayerDead(OfflinePlayer player) throws SQLException {
+        if (!playerExists(player)) {
+            addPlayer(player);
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET dead = ? WHERE uuid = ?")) {
+            preparedStatement.setBoolean(1, true);
+            preparedStatement.setString(2, player.getUniqueId().toString());
+            preparedStatement.executeUpdate();
+        }
+    }
+
+    public void unmarkPlayerDead(OfflinePlayer player) throws SQLException {
+        if (!playerExists(player)) {
+            return;
+        }
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement("UPDATE players SET dead = ? WHERE uuid = ?")) {
+            preparedStatement.setBoolean(1, false);
+            preparedStatement.setString(2, player.getUniqueId().toString());
+            preparedStatement.executeUpdate();
+        }
+    }
+
 
     public void closeCon() throws SQLException{
         if(connection != null && ! connection.isClosed()){
@@ -86,7 +120,7 @@ public final class SkullApi {
 
     public String tab(OfflinePlayer player){
         if(hasSkull(player)){
-            return " §f☠";
+            return "§f☠";
         }
         return " ";
     }
